@@ -46,6 +46,7 @@ namespace uva
             std::vector<basic_before_action*> before_actions;
             parameters params;
             std::string name;
+            var locals = var::map();
         };
 
         class basic_connection

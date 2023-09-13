@@ -46,30 +46,34 @@ basic_action_target uva::routing::find_dispatch_target(const std::string &action
         for(size_t i = 0; i < routes_with_keywords.size(); ++i) {
             //todo
             //create array with the prefixes
+
+            key.clear();
+            value.clear();
+
             std::string prefix = routes_with_keywords[i].first.substr(0, routes_with_keywords[i].first.find(":"));
             if(action.starts_with(prefix)) {
-                std::string_view action_view = action;
+
+                std::string_view action_view = __action;
                 std::string_view route_with_keyword_view = routes_with_keywords[i].first;
 
                 std::string_view action_without_prefix = action_view.substr(prefix.size());
                 std::string_view route_with_keyword_without_prefix = route_with_keyword_view.substr(prefix.size());
+
+                //removes :
+                route_with_keyword_without_prefix.remove_prefix(1);
+
+                while(route_with_keyword_without_prefix.size() && isalnum(route_with_keyword_without_prefix.front())) {
+                    key.push_back(route_with_keyword_without_prefix.front());
+                    route_with_keyword_without_prefix.remove_prefix(1);
+                }
 
                 while(action_without_prefix.size() && isalnum(action_without_prefix.front())) {
                     value.push_back(action_without_prefix.front());
                     action_without_prefix.remove_prefix(1);
                 }
 
-                if(__action.ends_with(action_without_prefix)) {
+                if((!action_without_prefix.size() && !route_with_keyword_without_prefix.size()) || __action.ends_with(route_with_keyword_without_prefix)) {
                     __action = routes_with_keywords[i].first;
-
-                    //removes :
-                    route_with_keyword_without_prefix.remove_prefix(1);
-
-                    while(route_with_keyword_without_prefix.size() && isalnum(route_with_keyword_without_prefix.front())) {
-                        key.push_back(route_with_keyword_without_prefix.front());
-                        route_with_keyword_without_prefix.remove_prefix(1);
-                    }
-
                     it = routes.find(__action);
                     break;
                 }

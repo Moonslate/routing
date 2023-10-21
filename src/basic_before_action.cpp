@@ -27,7 +27,7 @@ bool basic_before_action::do_before()
 {
     try {
         return before();
-    } catch(std::exception e) {
+    } catch(const std::exception& e) {
         log_error("error during before_action: {}", e.what());
         return false;
     }

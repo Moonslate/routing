@@ -4,7 +4,7 @@ using namespace uva;
 using namespace routing;
 
 parameters::parameters()
-    : var(empty_map)
+    : var(var::map())
 {
     
 }

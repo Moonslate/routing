@@ -14,4 +14,6 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 #Tests
 
 #Create tests for parent project
-cspec_configure("uva-routing" ${CMAKE_CURRENT_LIST_DIR} "uva-routing")
+if(TARGET cspec)
+	cspec_configure("uva-routing" ${CMAKE_CURRENT_LIST_DIR} "uva-routing")
+endif()
